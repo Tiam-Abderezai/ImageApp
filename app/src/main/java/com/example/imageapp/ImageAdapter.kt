@@ -8,10 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.imageapp.databinding.ItemImageBinding
+import com.example.imageapp.extension.loadImage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.item_image.view.*
+
 
 class ImageAdapter(private val context: Context?, private var items: List<Image>) :
     RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+
 
     override fun getItemCount(): Int {
         return items.size
@@ -23,15 +28,17 @@ class ImageAdapter(private val context: Context?, private var items: List<Image>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent?.context)
             .inflate(R.layout.item_image, parent, false)
+        val binding = ItemImageBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
-        return ViewHolder(itemView)
+
+        return ViewHolder(binding)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
         var imgImage: ImageView? = null
 
         init {
-            this.imgImage = view?.findViewById(R.id.imageIV)
+            imgImage = binding.imageIV
         }
     }
 
@@ -45,7 +52,8 @@ class ImageAdapter(private val context: Context?, private var items: List<Image>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var images = items[position]
 
-        Picasso.get().load(images.imageUrl).into(holder?.imgImage)
+
+        holder.itemView.imageIV.loadImage(images.imageUrl)
 
         holder.itemView.setOnClickListener {
             Toast.makeText(context, images.imageUrl, Toast.LENGTH_SHORT).show()
