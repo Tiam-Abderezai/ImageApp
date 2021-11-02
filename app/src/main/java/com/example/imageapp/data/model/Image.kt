@@ -1,4 +1,4 @@
-package com.example.imageapp
+package com.example.imageapp.data.model
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
