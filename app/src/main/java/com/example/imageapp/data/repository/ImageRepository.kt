@@ -5,14 +5,8 @@ import com.example.imageapp.data.model.Image
 import retrofit2.Call
 import javax.inject.Inject
 
-//class ImageRepository @Inject constructor(private val service: ApiService) {
-//    suspend fun getImages(): Call<List<String>> {
-//        return service.getImages()
-//    }
-//}
-
 class ImageRepository @Inject constructor(private val apiService: ApiService) {
-    suspend fun getImages(): List<Image> {
+    suspend fun getImages(): List<String> {
         return apiService.getImages()
     }
 }

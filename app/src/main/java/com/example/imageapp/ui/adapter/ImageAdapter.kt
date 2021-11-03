@@ -1,6 +1,7 @@
 package com.example.imageapp.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,75 +12,23 @@ import com.example.imageapp.data.model.Image
 import com.example.imageapp.R
 import com.example.imageapp.databinding.ItemImageBinding
 import com.example.imageapp.extension.loadImage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_image.view.*
 import javax.inject.Inject
-
-
-//class ImageAdapter(private val context: Context?, private var items: List<Image>) :
-//    RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
-//
-//
-//    override fun getItemCount(): Int {
-//        return items.size
-//    }
-//
-//    fun getItem(position: Int) = items[position]
-//
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val itemView = LayoutInflater.from(parent?.context)
-//            .inflate(R.layout.item_image, parent, false)
-//        val binding = ItemImageBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-//
-//
-//        return ViewHolder(binding)
-//    }
-//
-//    class ViewHolder(binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
-//        var imgImage: ImageView? = null
-//
-//        init {
-//            imgImage = binding.imageIV
-//        }
-//    }
-//
-//
-//    private var images = mutableListOf<Image>()
-//
-//    init {
-//        images.addAll(items)
-//    }
-//
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val images = items[position]
-//
-//
-//        holder.itemView.imageIV.loadImage(images.imageUrl)
-//
-//        holder.itemView.setOnClickListener {
-//            Toast.makeText(context, images.imageUrl, Toast.LENGTH_SHORT).show()
-//        }
-//
-//    }
-//
-//}
+import kotlin.coroutines.coroutineContext
 
 
 class ImageAdapter @Inject constructor(
 ) : RecyclerView.Adapter<ImageAdapter.DataViewHolder>() {
 
-    private var images: ArrayList<Image> = ArrayList()
+    private var urls: ArrayList<String> = ArrayList()
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(image: Image) {
-                    itemView.imageIV.loadImage(image.imageUrl)
-////            itemView.textViewUserName.text = user.name
-////            itemView.textViewUserEmail.text = user.email
-////            Glide.with(itemView.imageViewAvatar.context)
-////                .load(user.avatar)
-////                .into(itemView.imageViewAvatar)
+        fun bind(url: String) {
+            itemView.imageIV.loadImage(url)
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         DataViewHolder(
@@ -89,15 +38,19 @@ class ImageAdapter @Inject constructor(
             )
         )
 
-    override fun getItemCount(): Int = images.size
+    override fun getItemCount(): Int = urls.size
 
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
-        holder.bind(images[position])
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+        holder.bind(urls[position])
+        holder.itemView.setOnClickListener {
+            Toast.makeText(holder.itemView.context, urls[position], Toast.LENGTH_SHORT).show()
+        }
+    }
 
-    fun addData(users: List<Image>) {
-        this.images.apply {
+    fun addData(imageUrls: List<String>) {
+        urls.apply {
             clear()
-            addAll(users)
+            addAll(imageUrls)
         }
     }
 

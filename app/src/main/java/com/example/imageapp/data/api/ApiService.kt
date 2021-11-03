@@ -4,14 +4,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 
-//interface ApiService {
-//    @GET("cats?count=100&urls=true&httpsUrls=true")
-//    fun getImages(
-//    ): Call<List<String>>
-//
-//}
-
 interface ApiService {
     @GET("cats?count=100&urls=true&httpsUrls=true")
-    suspend fun getImages(): List<Image>
+    suspend fun getImages(): List<String>
 }
